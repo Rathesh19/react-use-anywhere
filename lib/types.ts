@@ -1,6 +1,6 @@
 import { JwtPayload } from 'jsonwebtoken';
 
-// Extended JWT Payload interface to include custom claims
+// JWT Payload interface extending standard JWT payload
 export interface CustomJWTPayload extends JwtPayload {
   userId: string;
   email: string;
@@ -9,23 +9,18 @@ export interface CustomJWTPayload extends JwtPayload {
 
 // Authentication state interface for managing JWT-based authentication
 export interface AuthState {
-  token: string | null;
-  refreshToken: string | null;
   isAuthenticated: boolean;
+  token: string | null;
   user: {
     id: string;
     email: string;
     role?: string;
   } | null;
+  expiresAt: number | null;
 }
 
-// Token response from authentication service
-export interface TokenResponse {
-  accessToken: string;
-  refreshToken: string;
-  user: {
-    id: string;
-    email: string;
-    role?: string;
-  };
+// Optional: Token types for clarity
+export enum TokenType {
+  ACCESS = 'access',
+  REFRESH = 'refresh'
 }
