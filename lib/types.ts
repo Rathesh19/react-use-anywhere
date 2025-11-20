@@ -9,8 +9,9 @@ export interface CustomJWTPayload extends JwtPayload {
 
 // Authentication state interface for managing JWT-based authentication
 export interface AuthState {
-  isAuthenticated: boolean;
   token: string | null;
+  refreshToken: string | null;
+  isAuthenticated: boolean;
   user: {
     id: string;
     email: string;
@@ -19,8 +20,11 @@ export interface AuthState {
   expiresAt: number | null;
 }
 
-// Optional: Token types for clarity
-export enum TokenType {
-  ACCESS = 'access',
-  REFRESH = 'refresh'
-}
+// Initial auth state
+export const initialAuthState: AuthState = {
+  token: null,
+  refreshToken: null,
+  isAuthenticated: false,
+  user: null,
+  expiresAt: null,
+};
