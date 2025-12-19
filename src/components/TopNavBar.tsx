@@ -45,7 +45,7 @@ const TopNavBar: React.FC = () => {
           sx={{ 
             backgroundColor: 'white', 
             borderRadius: 1, 
-            marginLeft: 2,
+            marginX: 2,
             flexGrow: 1 
           }}
           InputProps={{
@@ -58,7 +58,7 @@ const TopNavBar: React.FC = () => {
           variant="contained" 
           color="secondary" 
           startIcon={<AddIcon />}
-          sx={{ marginX: 2 }}
+          sx={{ marginRight: 2 }}
         >
           New Project
         </Button>

@@ -3,67 +3,82 @@ import {
   Grid, 
   Typography, 
   Card, 
-  CardContent, 
-  Box 
+  CardContent 
 } from '@mui/material';
 import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
+  Chart as ChartJS, 
+  CategoryScale, 
+  LinearScale, 
+  BarElement, 
+  Title, 
   Tooltip, 
-  ResponsiveContainer 
-} from 'recharts';
+  Legend 
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
 
-// Mock data for charts
-const achievementData = [
-  { name: 'Projects', value: 24 },
-  { name: 'Tasks Completed', value: 156 },
-  { name: 'Hours Worked', value: 320 }
-];
-
-const performanceData = [
-  { month: 'Jan', performance: 65 },
-  { month: 'Feb', performance: 59 },
-  { month: 'Mar', performance: 80 },
-  { month: 'Apr', performance: 81 },
-  { month: 'May', performance: 56 },
-  { month: 'Jun', performance: 55 }
-];
+// Register ChartJS components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const HeroPanel: React.FC = () => {
+  // Sample chart data
+  const chartData = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    datasets: [
+      {
+        label: 'Project Progress',
+        data: [12, 19, 3, 5, 2, 3],
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+      }
+    ]
+  };
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Monthly Project Performance'
+      }
+    }
+  };
+
   return (
     <Grid container spacing={3} sx={{ padding: 3 }}>
-      {/* Achievement Stats */}
+      {/* Summary Section */}
       <Grid item xs={12} md={4}>
         <Card>
           <CardContent>
-            <Typography variant="h6">Achievement Stats</Typography>
-            {achievementData.map((stat) => (
-              <Box key={stat.name} display="flex" justifyContent="space-between" my={1}>
-                <Typography>{stat.name}</Typography>
-                <Typography fontWeight="bold">{stat.value}</Typography>
-              </Box>
-            ))}
+            <Typography variant="h6">Total Projects</Typography>
+            <Typography variant="h4">24</Typography>
           </CardContent>
         </Card>
       </Grid>
 
-      {/* Performance Chart */}
-      <Grid item xs={12} md={8}>
-        <Card sx={{ height: '100%' }}>
+      {/* Achievement Stats */}
+      <Grid item xs={12} md={4}>
+        <Card>
           <CardContent>
-            <Typography variant="h6" gutterBottom>
-              Monthly Performance
-            </Typography>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={performanceData}>
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="performance" fill="#8884d8" />
-              </BarChart>
-            </ResponsiveContainer>
+            <Typography variant="h6">Completed Projects</Typography>
+            <Typography variant="h4">18</Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+
+      {/* Data Visualization */}
+      <Grid item xs={12} md={8}>
+        <Card>
+          <CardContent>
+            <Bar data={chartData} options={chartOptions} />
           </CardContent>
         </Card>
       </Grid>

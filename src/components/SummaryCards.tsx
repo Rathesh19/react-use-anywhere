@@ -6,10 +6,10 @@ import {
   Typography, 
   Box 
 } from '@mui/material';
-import ProjectIcon from '@mui/icons-material/Work';
+import ProjectsIcon from '@mui/icons-material/Work';
 import RevenueIcon from '@mui/icons-material/AttachMoney';
-import TaskIcon from '@mui/icons-material/CheckCircle';
-import UserIcon from '@mui/icons-material/People';
+import UsersIcon from '@mui/icons-material/People';
+import TasksIcon from '@mui/icons-material/CheckCircle';
 
 interface SummaryCardProps {
   icon: React.ReactNode;
@@ -19,25 +19,17 @@ interface SummaryCardProps {
 }
 
 const SummaryCard: React.FC<SummaryCardProps> = ({ icon, title, value, color }) => (
-  <Card>
+  <Card sx={{ height: '100%' }}>
     <CardContent>
-      <Box display="flex" alignItems="center">
-        <Box 
-          sx={{ 
-            backgroundColor: color, 
-            color: 'white', 
-            borderRadius: '50%', 
-            padding: 1, 
-            marginRight: 2 
-          }}
-        >
-          {icon}
-        </Box>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
         <Box>
-          <Typography variant="subtitle2" color="textSecondary">
+          <Typography variant="subtitle1" color="textSecondary">
             {title}
           </Typography>
-          <Typography variant="h6">{value}</Typography>
+          <Typography variant="h5">{value}</Typography>
+        </Box>
+        <Box color={color}>
+          {icon}
         </Box>
       </Box>
     </CardContent>
@@ -45,36 +37,36 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ icon, title, value, color }) 
 );
 
 const SummaryCards: React.FC = () => {
-  const cardData = [
+  const summaryData = [
     {
-      icon: <ProjectIcon />,
+      icon: <ProjectsIcon />,
       title: 'Total Projects',
       value: '24',
-      color: '#3f51b5'
+      color: 'primary.main'
     },
     {
       icon: <RevenueIcon />,
       title: 'Total Revenue',
       value: '$45,230',
-      color: '#4caf50'
+      color: 'success.main'
     },
     {
-      icon: <TaskIcon />,
+      icon: <UsersIcon />,
+      title: 'Active Users',
+      value: '128',
+      color: 'info.main'
+    },
+    {
+      icon: <TasksIcon />,
       title: 'Completed Tasks',
-      value: '156',
-      color: '#ff9800'
-    },
-    {
-      icon: <UserIcon />,
-      title: 'Team Members',
-      value: '12',
-      color: '#9c27b0'
+      value: '356',
+      color: 'warning.main'
     }
   ];
 
   return (
-    <Grid container spacing={3} sx={{ padding: 3 }}>
-      {cardData.map((card, index) => (
+    <Grid container spacing={3} sx={{ padding: 2 }}>
+      {summaryData.map((card, index) => (
         <Grid item xs={12} sm={6} md={3} key={index}>
           <SummaryCard 
             icon={card.icon}

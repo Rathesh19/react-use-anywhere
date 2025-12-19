@@ -1,24 +1,27 @@
 import React from 'react';
 import { 
   Container, 
-  Box, 
   ThemeProvider, 
-  CssBaseline 
+  CssBaseline, 
+  Box 
 } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
+
+// Import components
 import TopNavBar from '../components/TopNavBar';
 import HeroPanel from '../components/HeroPanel';
 import SummaryCards from '../components/SummaryCards';
 import EntriesTable from '../components/EntriesTable';
-import { createTheme } from '@mui/material/styles';
 
+// Create a theme instance
 const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#3f51b5',
+      main: '#1976d2',
     },
     secondary: {
-      main: '#f50057',
+      main: '#dc004e',
     },
   },
   typography: {
@@ -32,7 +35,7 @@ const Dashboard: React.FC = () => {
       <CssBaseline />
       <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <TopNavBar />
-        <Container maxWidth="xl" sx={{ flexGrow: 1, paddingTop: 3 }}>
+        <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
           <HeroPanel />
           <SummaryCards />
           <EntriesTable />

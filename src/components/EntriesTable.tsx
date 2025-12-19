@@ -8,37 +8,33 @@ import {
   TableRow, 
   Paper, 
   Checkbox,
-  IconButton,
-  Toolbar,
-  Typography,
-  Tooltip
+  Button,
+  Box
 } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 
 interface Entry {
   id: number;
   project: string;
   status: string;
-  deadline: string;
   progress: number;
+  deadline: string;
 }
-
-const mockEntries: Entry[] = [
-  { id: 1, project: 'Dashboard Redesign', status: 'In Progress', deadline: '2023-10-15', progress: 65 },
-  { id: 2, project: 'Mobile App', status: 'Completed', deadline: '2023-09-30', progress: 100 },
-  { id: 3, project: 'API Integration', status: 'Pending', deadline: '2023-11-01', progress: 30 },
-  { id: 4, project: 'UX Research', status: 'Planning', deadline: '2023-10-20', progress: 10 },
-  { id: 5, project: 'Performance Optimization', status: 'In Progress', deadline: '2023-10-10', progress: 75 }
-];
 
 const EntriesTable: React.FC = () => {
   const [selected, setSelected] = useState<number[]>([]);
 
+  const mockEntries: Entry[] = [
+    { id: 1, project: 'Dashboard Redesign', status: 'In Progress', progress: 65, deadline: '2023-08-15' },
+    { id: 2, project: 'Mobile App', status: 'Completed', progress: 100, deadline: '2023-07-01' },
+    { id: 3, project: 'E-commerce Platform', status: 'Pending', progress: 30, deadline: '2023-09-30' },
+    { id: 4, project: 'CRM System', status: 'In Progress', progress: 75, deadline: '2023-08-25' },
+    { id: 5, project: 'Marketing Website', status: 'Completed', progress: 100, deadline: '2023-06-15' }
+  ];
+
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = mockEntries.map((n) => n.id);
-      setSelected(newSelected);
+      const newSelecteds = mockEntries.map((n) => n.id);
+      setSelected(newSelecteds);
       return;
     }
     setSelected([]);
@@ -68,36 +64,15 @@ const EntriesTable: React.FC = () => {
 
   return (
     <Paper sx={{ width: '100%', mb: 2 }}>
-      <Toolbar>
-        {selected.length > 0 ? (
-          <Typography
-            sx={{ flex: '1 1 100%' }}
-            color="inherit"
-            variant="subtitle1"
-            component="div"
-          >
-            {selected.length} selected
-          </Typography>
-        ) : (
-          <Typography
-            sx={{ flex: '1 1 100%' }}
-            variant="h6"
-            id="tableTitle"
-            component="div"
-          >
-            Project Entries
-          </Typography>
-        )}
-
-        {selected.length > 0 && (
-          <Tooltip title="Delete">
-            <IconButton>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        )}
-      </Toolbar>
-
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 2 }}>
+        <Button 
+          variant="contained" 
+          color="primary" 
+          disabled={selected.length === 0}
+        >
+          Bulk Actions
+        </Button>
+      </Box>
       <TableContainer>
         <Table>
           <TableHead>
@@ -111,8 +86,8 @@ const EntriesTable: React.FC = () => {
               </TableCell>
               <TableCell>Project</TableCell>
               <TableCell>Status</TableCell>
-              <TableCell>Deadline</TableCell>
               <TableCell>Progress</TableCell>
+              <TableCell>Deadline</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -137,12 +112,11 @@ const EntriesTable: React.FC = () => {
                   </TableCell>
                   <TableCell>{entry.project}</TableCell>
                   <TableCell>{entry.status}</TableCell>
-                  <TableCell>{entry.deadline}</TableCell>
                   <TableCell>{entry.progress}%</TableCell>
+                  <TableCell>{entry.deadline}</TableCell>
                   <TableCell>
-                    <IconButton>
-                      <EditIcon />
-                    </IconButton>
+                    <Button size="small" color="primary">View</Button>
+                    <Button size="small" color="secondary">Edit</Button>
                   </TableCell>
                 </TableRow>
               );
