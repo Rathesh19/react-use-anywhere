@@ -1,20 +1,28 @@
-import React, { Suspense, lazy } from 'react';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import theme from './theme';
-import { CircularProgress } from '@mui/material';
+import React, { useState } from 'react';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-const Dashboard = lazy(() => import('./pages/Dashboard'));
+import theme, { darkTheme } from './theme';
+import Dashboard from './pages/Dashboard';
 
-const App: React.FC = () => {
+function App() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={isDarkMode ? darkTheme : theme}>
       <CssBaseline />
-      <Suspense fallback={<CircularProgress />}>
-        <Dashboard />
-      </Suspense>
+      <Router>
+        <Dashboard 
+          isDarkMode={isDarkMode} 
+          toggleTheme={toggleTheme} 
+        />
+      </Router>
     </ThemeProvider>
   );
-};
+}
 
 export default App;

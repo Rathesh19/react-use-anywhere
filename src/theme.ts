@@ -1,15 +1,19 @@
-import { createTheme, Theme } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
-// Define base theme
-const baseTheme = createTheme({
+// Define primary and secondary colors
+const PRIMARY_COLOR = '#1976d2';  // Material Blue
+const SECONDARY_COLOR = '#dc004e';  // Material Pink
+
+// Create theme with custom palette and typography
+const theme = createTheme({
   palette: {
     primary: {
-      main: '#1976d2',
-      light: '#42a5f5',
-      dark: '#1565c0',
+      main: PRIMARY_COLOR,
+      light: '#4791db',
+      dark: '#115293',
     },
     secondary: {
-      main: '#dc004e',
+      main: SECONDARY_COLOR,
       light: '#ff4081',
       dark: '#9a0036',
     },
@@ -17,23 +21,32 @@ const baseTheme = createTheme({
       default: '#f4f4f4',
       paper: '#ffffff',
     },
+    text: {
+      primary: '#333333',
+      secondary: '#666666',
+    },
   },
   typography: {
-    fontFamily: 'Roboto, Arial, sans-serif',
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+    ].join(','),
     h1: {
       fontSize: '2.5rem',
-      fontWeight: 500,
+      fontWeight: 600,
     },
-    h6: {
+    h2: {
+      fontSize: '2rem',
       fontWeight: 500,
     },
     body1: {
       fontSize: '1rem',
     },
-  },
-  spacing: 8,
-  shape: {
-    borderRadius: 8,
   },
   components: {
     MuiButton: {
@@ -47,29 +60,29 @@ const baseTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
+          borderRadius: 12,
           boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
         },
       },
     },
   },
+  spacing: 8,  // Base spacing unit
 });
 
-// Light theme
-export const lightTheme: Theme = createTheme(baseTheme, {
-  palette: {
-    mode: 'light',
-  },
-});
+// Make typography responsive
+const responsiveTheme = responsiveFontSizes(theme);
 
-// Dark theme
-export const darkTheme: Theme = createTheme(baseTheme, {
+export default responsiveTheme;
+
+// Dark mode theme (optional)
+export const darkTheme = createTheme({
+  ...responsiveTheme,
   palette: {
+    ...responsiveTheme.palette,
     mode: 'dark',
     background: {
       default: '#121212',
-      paper: '#1e1e1e',
+      paper: '#1E1E1E',
     },
   },
 });
-
-export default baseTheme;

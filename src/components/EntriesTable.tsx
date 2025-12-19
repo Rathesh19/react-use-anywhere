@@ -7,40 +7,58 @@ import {
   TableHead, 
   TableRow, 
   Paper, 
+  TablePagination,
   Checkbox,
-  Button,
-  Box
+  IconButton,
+  Toolbar,
+  Tooltip,
+  Typography
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import FilterListIcon from '@mui/icons-material/FilterList';
 
+// Define the type for our table entries
 interface Entry {
   id: number;
-  project: string;
+  name: string;
   status: string;
+  date: string;
   progress: number;
-  deadline: string;
 }
 
-const EntriesTable: React.FC = () => {
+// Mock data for the table
+const MOCK_ENTRIES: Entry[] = [
+  { id: 1, name: 'Project Alpha', status: 'In Progress', date: '2023-06-15', progress: 65 },
+  { id: 2, name: 'Project Beta', status: 'Completed', date: '2023-05-20', progress: 100 },
+  { id: 3, name: 'Project Gamma', status: 'Pending', date: '2023-07-01', progress: 30 },
+  { id: 4, name: 'Project Delta', status: 'On Hold', date: '2023-06-10', progress: 45 },
+  { id: 5, name: 'Project Epsilon', status: 'In Progress', date: '2023-06-25', progress: 75 },
+];
+
+export const EntriesTable: React.FC = () => {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [selected, setSelected] = useState<number[]>([]);
 
-  const mockEntries: Entry[] = [
-    { id: 1, project: 'Dashboard Redesign', status: 'In Progress', progress: 65, deadline: '2023-08-15' },
-    { id: 2, project: 'Mobile App', status: 'Completed', progress: 100, deadline: '2023-07-01' },
-    { id: 3, project: 'E-commerce Platform', status: 'Pending', progress: 30, deadline: '2023-09-30' },
-    { id: 4, project: 'CRM System', status: 'In Progress', progress: 75, deadline: '2023-08-25' },
-    { id: 5, project: 'Marketing Website', status: 'Completed', progress: 100, deadline: '2023-06-15' }
-  ];
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = mockEntries.map((n) => n.id);
+      const newSelecteds = MOCK_ENTRIES.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (id: number) => {
+  const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected: number[] = [];
 
@@ -53,7 +71,7 @@ const EntriesTable: React.FC = () => {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
+        selected.slice(selectedIndex + 1),
       );
     }
 
@@ -62,42 +80,86 @@ const EntriesTable: React.FC = () => {
 
   const isSelected = (id: number) => selected.indexOf(id) !== -1;
 
+  // Slice the mock entries based on pagination
+  const displayedEntries = MOCK_ENTRIES.slice(
+    page * rowsPerPage, 
+    page * rowsPerPage + rowsPerPage
+  );
+
   return (
     <Paper sx={{ width: '100%', mb: 2 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 2 }}>
-        <Button 
-          variant="contained" 
-          color="primary" 
-          disabled={selected.length === 0}
-        >
-          Bulk Actions
-        </Button>
-      </Box>
+      <Toolbar
+        sx={{
+          pl: { sm: 2 },
+          pr: { xs: 1, sm: 1 },
+          ...(selected.length > 0 && {
+            bgcolor: (theme) =>
+              theme.palette.primary.main,
+          }),
+        }}
+      >
+        {selected.length > 0 ? (
+          <Typography
+            sx={{ flex: '1 1 100%' }}
+            color="inherit"
+            variant="subtitle1"
+            component="div"
+          >
+            {selected.length} selected
+          </Typography>
+        ) : (
+          <Typography
+            sx={{ flex: '1 1 100%' }}
+            variant="h6"
+            id="tableTitle"
+            component="div"
+          >
+            Project Entries
+          </Typography>
+        )}
+
+        {selected.length > 0 ? (
+          <Tooltip title="Delete">
+            <IconButton>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        ) : (
+          <Tooltip title="Filter list">
+            <IconButton>
+              <FilterListIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+      </Toolbar>
+
       <TableContainer>
-        <Table>
+        <Table sx={{ minWidth: 750 }}>
           <TableHead>
             <TableRow>
               <TableCell padding="checkbox">
                 <Checkbox
-                  indeterminate={selected.length > 0 && selected.length < mockEntries.length}
-                  checked={mockEntries.length > 0 && selected.length === mockEntries.length}
+                  color="primary"
+                  indeterminate={selected.length > 0 && selected.length < MOCK_ENTRIES.length}
+                  checked={MOCK_ENTRIES.length > 0 && selected.length === MOCK_ENTRIES.length}
                   onChange={handleSelectAllClick}
                 />
               </TableCell>
-              <TableCell>Project</TableCell>
+              <TableCell>Project Name</TableCell>
               <TableCell>Status</TableCell>
+              <TableCell>Date</TableCell>
               <TableCell>Progress</TableCell>
-              <TableCell>Deadline</TableCell>
-              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {mockEntries.map((entry) => {
+            {displayedEntries.map((entry, index) => {
               const isItemSelected = isSelected(entry.id);
+              const labelId = `enhanced-table-checkbox-${index}`;
 
               return (
                 <TableRow
                   hover
+                  onClick={(event) => handleClick(event, entry.id)}
                   role="checkbox"
                   aria-checked={isItemSelected}
                   tabIndex={-1}
@@ -106,24 +168,34 @@ const EntriesTable: React.FC = () => {
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
+                      color="primary"
                       checked={isItemSelected}
-                      onClick={() => handleClick(entry.id)}
+                      inputProps={{
+                        'aria-labelledby': labelId,
+                      }}
                     />
                   </TableCell>
-                  <TableCell>{entry.project}</TableCell>
-                  <TableCell>{entry.status}</TableCell>
-                  <TableCell>{entry.progress}%</TableCell>
-                  <TableCell>{entry.deadline}</TableCell>
-                  <TableCell>
-                    <Button size="small" color="primary">View</Button>
-                    <Button size="small" color="secondary">Edit</Button>
+                  <TableCell component="th" id={labelId} scope="row">
+                    {entry.name}
                   </TableCell>
+                  <TableCell>{entry.status}</TableCell>
+                  <TableCell>{entry.date}</TableCell>
+                  <TableCell>{entry.progress}%</TableCell>
                 </TableRow>
               );
             })}
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={MOCK_ENTRIES.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </Paper>
   );
 };

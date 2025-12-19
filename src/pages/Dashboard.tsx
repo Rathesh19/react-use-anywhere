@@ -1,47 +1,63 @@
 import React from 'react';
 import { 
   Container, 
-  ThemeProvider, 
-  CssBaseline, 
-  Box 
+  Grid, 
+  Box, 
+  Switch, 
+  FormControlLabel 
 } from '@mui/material';
-import { createTheme } from '@mui/material/styles';
 
-// Import components
 import TopNavBar from '../components/TopNavBar';
 import HeroPanel from '../components/HeroPanel';
 import SummaryCards from '../components/SummaryCards';
 import EntriesTable from '../components/EntriesTable';
 
-// Create a theme instance
-const theme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#1976d2',
-    },
-    secondary: {
-      main: '#dc004e',
-    },
-  },
-  typography: {
-    fontFamily: 'Roboto, Arial, sans-serif',
-  },
-});
+interface DashboardProps {
+  isDarkMode: boolean;
+  toggleTheme: () => void;
+}
 
-const Dashboard: React.FC = () => {
+const Dashboard: React.FC<DashboardProps> = ({ 
+  isDarkMode, 
+  toggleTheme 
+}) => {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        <TopNavBar />
-        <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
-          <HeroPanel />
-          <SummaryCards />
-          <EntriesTable />
-        </Container>
-      </Box>
-    </ThemeProvider>
+    <Box sx={{ flexGrow: 1 }}>
+      <TopNavBar />
+      
+      <Container maxWidth="xl" sx={{ mt: 4 }}>
+        <Grid container spacing={3}>
+          {/* Theme Toggle */}
+          <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={isDarkMode}
+                  onChange={toggleTheme}
+                  color="primary"
+                />
+              }
+              label={isDarkMode ? 'Dark Mode' : 'Light Mode'}
+            />
+          </Grid>
+
+          {/* Hero Panel */}
+          <Grid item xs={12}>
+            <HeroPanel />
+          </Grid>
+
+          {/* Summary Cards */}
+          <Grid item xs={12}>
+            <SummaryCards />
+          </Grid>
+
+          {/* Entries Table */}
+          <Grid item xs={12}>
+            <EntriesTable />
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
   );
 };
 
