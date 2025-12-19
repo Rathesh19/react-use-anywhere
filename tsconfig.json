@@ -1,34 +1,29 @@
 {
-  "extends": "@tsconfig/recommended",
   "compilerOptions": {
-    "target": "ES2021",
-    "module": "NodeNext",
+    "target": "es5",
     "lib": [
-      "ES2023"
+      "dom",
+      "dom.iterable",
+      "esnext"
     ],
-    "moduleResolution": "nodenext",
-    "esModuleInterop": true,
-    "noImplicitReturns": true,
-    "declaration": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "useDefineForClassFields": true,
-    "strictPropertyInitialization": false,
     "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
-    "strictFunctionTypes": false,
-    "outDir": "dist",
-    "types": [
-      "node"
-    ],
-    "resolveJsonModule": true
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true
   },
   "include": [
-    "**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
+    "src"
   ]
 }

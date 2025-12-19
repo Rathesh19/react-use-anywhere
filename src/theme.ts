@@ -1,29 +1,21 @@
-import { createTheme, responsiveFontSizes } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
 // Define primary and secondary colors
-const PRIMARY_COLOR = '#1976d2';  // Material Blue
-const SECONDARY_COLOR = '#dc004e';  // Material Pink
+const primaryColor = '#1976d2';  // Material Blue
+const secondaryColor = '#dc004e'; // Material Pink
 
-// Create theme with custom palette and typography
+// Create a theme instance
 const theme = createTheme({
   palette: {
     primary: {
-      main: PRIMARY_COLOR,
-      light: '#4791db',
-      dark: '#115293',
+      main: primaryColor,
     },
     secondary: {
-      main: SECONDARY_COLOR,
-      light: '#ff4081',
-      dark: '#9a0036',
+      main: secondaryColor,
     },
     background: {
       default: '#f4f4f4',
       paper: '#ffffff',
-    },
-    text: {
-      primary: '#333333',
-      secondary: '#666666',
     },
   },
   typography: {
@@ -40,10 +32,6 @@ const theme = createTheme({
       fontSize: '2.5rem',
       fontWeight: 600,
     },
-    h2: {
-      fontSize: '2rem',
-      fontWeight: 500,
-    },
     body1: {
       fontSize: '1rem',
     },
@@ -57,32 +45,15 @@ const theme = createTheme({
         },
       },
     },
-    MuiCard: {
+    MuiAppBar: {
       styleOverrides: {
         root: {
-          borderRadius: 12,
-          boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
         },
       },
     },
   },
-  spacing: 8,  // Base spacing unit
+  spacing: 8, // Base spacing unit
 });
 
-// Make typography responsive
-const responsiveTheme = responsiveFontSizes(theme);
-
-export default responsiveTheme;
-
-// Dark mode theme (optional)
-export const darkTheme = createTheme({
-  ...responsiveTheme,
-  palette: {
-    ...responsiveTheme.palette,
-    mode: 'dark',
-    background: {
-      default: '#121212',
-      paper: '#1E1E1E',
-    },
-  },
-});
+export default theme;
