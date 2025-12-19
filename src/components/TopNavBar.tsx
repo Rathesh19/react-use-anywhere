@@ -43,12 +43,10 @@ const TopNavBar: React.FC = () => {
           size="small"
           placeholder="Search..."
           sx={{ 
-            flexGrow: 1, 
-            mx: 2,
-            '& .MuiOutlinedInput-root': { 
-              backgroundColor: 'white',
-              borderRadius: 2 
-            }
+            backgroundColor: 'white', 
+            borderRadius: 1, 
+            marginLeft: 2,
+            flexGrow: 1 
           }}
           InputProps={{
             startAdornment: <SearchIcon />
@@ -60,7 +58,7 @@ const TopNavBar: React.FC = () => {
           variant="contained" 
           color="secondary" 
           startIcon={<AddIcon />}
-          sx={{ mr: 2 }}
+          sx={{ marginX: 2 }}
         >
           New Project
         </Button>
