@@ -8,10 +8,11 @@ import {
   Avatar, 
   Menu, 
   MenuItem, 
-  IconButton 
+  IconButton, 
+  Box 
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import AddIcon from '@mui/icons-material/Add';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const TopNavBar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -28,44 +29,42 @@ const TopNavBar: React.FC = () => {
     <AppBar position="sticky">
       <Toolbar>
         {/* Logo */}
-        <Typography variant="h6" sx={{ flexGrow: 0.1 }}>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }}>
           Dashboard
         </Typography>
 
         {/* Navigation Links */}
-        <Button color="inherit">Home</Button>
-        <Button color="inherit">Projects</Button>
-        <Button color="inherit">Analytics</Button>
+        <Box sx={{ flexGrow: 0.4, display: 'flex', gap: 2 }}>
+          <Button color="inherit">Home</Button>
+          <Button color="inherit">Projects</Button>
+          <Button color="inherit">Analytics</Button>
+        </Box>
 
         {/* Search Field */}
-        <TextField
-          variant="outlined"
-          size="small"
-          placeholder="Search..."
-          sx={{ 
-            backgroundColor: 'white', 
-            borderRadius: 1, 
-            marginLeft: 2,
-            flexGrow: 1 
-          }}
-          InputProps={{
-            startAdornment: <SearchIcon />
-          }}
-        />
+        <Box sx={{ flexGrow: 0.3, display: 'flex', alignItems: 'center', gap: 1 }}>
+          <SearchIcon />
+          <TextField 
+            variant="standard" 
+            placeholder="Search..." 
+            fullWidth 
+            InputProps={{ disableUnderline: true }}
+          />
+        </Box>
 
         {/* New Project Button */}
         <Button 
           variant="contained" 
           color="secondary" 
-          startIcon={<AddIcon />}
-          sx={{ marginX: 2 }}
+          sx={{ mr: 2 }}
         >
           New Project
         </Button>
 
         {/* Avatar Dropdown */}
         <IconButton onClick={handleAvatarClick}>
-          <Avatar alt="User Avatar" src="/path/to/avatar.jpg" />
+          <Avatar>
+            <AccountCircleIcon />
+          </Avatar>
         </IconButton>
         <Menu
           anchorEl={anchorEl}

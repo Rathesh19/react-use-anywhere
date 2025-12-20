@@ -1,16 +1,26 @@
 import React from 'react';
-import { ThemeProvider, CssBaseline } from '@mui/material';
-import theme from './theme';
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import TopNavBar from './components/TopNavBar';
+import HeroPanel from './components/HeroPanel';
+
+const theme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#dc004e',
+    },
+  },
+});
 
 const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <div className="App">
-        <TopNavBar />
-        {/* Other dashboard components will be added here */}
-      </div>
+      <TopNavBar />
+      <HeroPanel />
     </ThemeProvider>
   );
 };

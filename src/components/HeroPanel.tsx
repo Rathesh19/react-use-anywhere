@@ -13,10 +13,11 @@ import {
   YAxis, 
   CartesianGrid, 
   Tooltip, 
+  Legend, 
   ResponsiveContainer 
 } from 'recharts';
 
-// Mock data for charts
+// Sample data for charts
 const achievementData = [
   { name: 'Projects', value: 24 },
   { name: 'Completed', value: 18 },
@@ -34,27 +35,39 @@ const performanceData = [
 
 const HeroPanel: React.FC = () => {
   return (
-    <Grid container spacing={3} sx={{ padding: 3 }}>
-      {/* Summary Section */}
+    <Grid container spacing={3} sx={{ p: 3 }}>
+      {/* Summary Cards */}
       <Grid item xs={12} md={4}>
         <Card>
           <CardContent>
-            <Typography variant="h6">Project Summary</Typography>
-            <Typography variant="body2">
-              Total Projects: 24
-              Completed: 18
-              Pending: 6
-            </Typography>
+            <Typography variant="h6">Total Projects</Typography>
+            <Typography variant="h4">24</Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12} md={4}>
+        <Card>
+          <CardContent>
+            <Typography variant="h6">Completed Projects</Typography>
+            <Typography variant="h4">18</Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12} md={4}>
+        <Card>
+          <CardContent>
+            <Typography variant="h6">Pending Projects</Typography>
+            <Typography variant="h4">6</Typography>
           </CardContent>
         </Card>
       </Grid>
 
       {/* Achievement Stats */}
-      <Grid item xs={12} md={4}>
+      <Grid item xs={12} md={6}>
         <Card>
           <CardContent>
-            <Typography variant="h6">Achievement Stats</Typography>
-            <ResponsiveContainer width="100%" height={200}>
+            <Typography variant="h6">Project Achievements</Typography>
+            <ResponsiveContainer width="100%" height={300}>
               <BarChart data={achievementData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
@@ -67,12 +80,12 @@ const HeroPanel: React.FC = () => {
         </Card>
       </Grid>
 
-      {/* Performance Visualization */}
-      <Grid item xs={12} md={4}>
+      {/* Performance Chart */}
+      <Grid item xs={12} md={6}>
         <Card>
           <CardContent>
-            <Typography variant="h6">Performance Trend</Typography>
-            <ResponsiveContainer width="100%" height={200}>
+            <Typography variant="h6">Performance Metrics</Typography>
+            <ResponsiveContainer width="100%" height={300}>
               <BarChart data={performanceData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
