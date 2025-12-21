@@ -4,15 +4,20 @@ import {
   Toolbar, 
   Typography, 
   Button, 
+  IconButton, 
   TextField, 
   Avatar, 
   Menu, 
   MenuItem, 
-  IconButton, 
-  Box 
+  Box, 
+  Container 
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import AddIcon from '@mui/icons-material/Add';
+import { 
+  Search as SearchIcon, 
+  Add as AddIcon, 
+  AccountCircle as AccountCircleIcon 
+} from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
 const TopNavBar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -21,60 +26,80 @@ const TopNavBar: React.FC = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleAvatarClose = () => {
     setAnchorEl(null);
   };
 
   return (
-    <AppBar position="sticky">
-      <Toolbar>
-        {/* Logo */}
-        <Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }}>
-          Dashboard
-        </Typography>
+    <AppBar position="sticky" color="default" elevation={1}>
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          {/* Logo */}
+          <Typography 
+            variant="h6" 
+            noWrap 
+            component={Link} 
+            to="/" 
+            sx={{ 
+              mr: 2, 
+              display: 'flex', 
+              fontWeight: 700, 
+              color: 'inherit', 
+              textDecoration: 'none' 
+            }}
+          >
+            Dashboard
+          </Typography>
 
-        {/* Navigation Links */}
-        <Box sx={{ flexGrow: 0.4, display: 'flex', gap: 2 }}>
-          <Button color="inherit">Home</Button>
-          <Button color="inherit">Projects</Button>
-          <Button color="inherit">Analytics</Button>
-        </Box>
+          {/* Navigation Links */}
+          <Box sx={{ flexGrow: 1, display: 'flex', gap: 2 }}>
+            <Button color="inherit" component={Link} to="/projects">Projects</Button>
+            <Button color="inherit" component={Link} to="/analytics">Analytics</Button>
+            <Button color="inherit" component={Link} to="/reports">Reports</Button>
+          </Box>
 
-        {/* Search Field */}
-        <Box sx={{ flexGrow: 0.3, display: 'flex', alignItems: 'center', gap: 1 }}>
-          <SearchIcon />
-          <TextField 
-            variant="standard" 
-            placeholder="Search..." 
-            fullWidth 
-            InputProps={{ disableUnderline: true }}
-          />
-        </Box>
+          {/* Search Field */}
+          <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center', mr: 2 }}>
+            <TextField
+              variant="outlined"
+              size="small"
+              placeholder="Search..."
+              InputProps={{
+                startAdornment: <SearchIcon fontSize="small" sx={{ mr: 1 }} />,
+              }}
+              sx={{ minWidth: 200 }}
+            />
+          </Box>
 
-        {/* New Project Button */}
-        <Button 
-          variant="contained" 
-          color="secondary" 
-          startIcon={<AddIcon />}
-          sx={{ mr: 2 }}
-        >
-          New Project
-        </Button>
+          {/* New Project Button */}
+          <Button 
+            variant="contained" 
+            color="primary" 
+            startIcon={<AddIcon />} 
+            sx={{ mr: 2 }}
+          >
+            New Project
+          </Button>
 
-        {/* Avatar Dropdown */}
-        <IconButton onClick={handleAvatarClick}>
-          <Avatar alt="User Avatar" src="/path/to/avatar.jpg" />
-        </IconButton>
-        <Menu
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
-          <MenuItem onClick={handleClose}>Settings</MenuItem>
-          <MenuItem onClick={handleClose}>Logout</MenuItem>
-        </Menu>
-      </Toolbar>
+          {/* Avatar Dropdown */}
+          <Box>
+            <IconButton onClick={handleAvatarClick}>
+              <Avatar>
+                <AccountCircleIcon />
+              </Avatar>
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleAvatarClose}
+            >
+              <MenuItem onClick={handleAvatarClose}>Profile</MenuItem>
+              <MenuItem onClick={handleAvatarClose}>Settings</MenuItem>
+              <MenuItem onClick={handleAvatarClose}>Logout</MenuItem>
+            </Menu>
+          </Box>
+        </Toolbar>
+      </Container>
     </AppBar>
   );
 };

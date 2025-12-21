@@ -1,28 +1,25 @@
 import React from 'react';
-import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import TopNavBar from './components/TopNavBar';
-import HeroPanel from './components/HeroPanel';
 
+// Optional: Create a custom theme
 const theme = createTheme({
   palette: {
-    mode: 'light',
-    primary: {
-      main: '#1976d2',
-    },
-    secondary: {
-      main: '#dc004e',
-    },
+    mode: 'light', // or 'dark'
   },
 });
 
 const App: React.FC = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <TopNavBar />
-      <HeroPanel />
-      {/* Additional components can be added here */}
-    </ThemeProvider>
+    <Router>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <TopNavBar />
+        {/* Other dashboard components will go here */}
+      </ThemeProvider>
+    </Router>
   );
 };
 
