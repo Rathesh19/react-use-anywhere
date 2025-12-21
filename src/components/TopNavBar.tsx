@@ -6,113 +6,130 @@ import {
   Button, 
   IconButton, 
   TextField, 
+  Box, 
   Avatar, 
   Menu, 
   MenuItem, 
-  Box, 
-  Container 
+  useMediaQuery, 
+  useTheme 
 } from '@mui/material';
 import { 
   Search as SearchIcon, 
   Add as AddIcon, 
-  AccountCircle as AccountCircleIcon 
+  Menu as MenuIcon 
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
 const TopNavBar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+  const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMenuClose = () => {
+  const handleAvatarClose = () => {
     setAnchorEl(null);
   };
 
   return (
     <AppBar position="sticky" color="default" elevation={1}>
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          {/* Logo */}
-          <Typography 
-            variant="h6" 
-            noWrap 
-            component={Link} 
-            to="/" 
-            sx={{ 
-              mr: 2, 
-              display: { xs: 'none', md: 'flex' }, 
-              fontWeight: 700, 
-              color: 'inherit', 
-              textDecoration: 'none' 
+      <Toolbar>
+        {/* Logo */}
+        <Typography 
+          variant="h6" 
+          component={Link} 
+          to="/" 
+          sx={{ 
+            flexGrow: 0, 
+            marginRight: 2, 
+            textDecoration: 'none', 
+            color: 'inherit' 
+          }}
+        >
+          Dashboard
+        </Typography>
+
+        {/* Navigation Links */}
+        {!isMobile && (
+          <Box sx={{ flexGrow: 1, display: 'flex', gap: 2 }}>
+            <Button color="inherit" component={Link} to="/projects">Projects</Button>
+            <Button color="inherit" component={Link} to="/analytics">Analytics</Button>
+            <Button color="inherit" component={Link} to="/reports">Reports</Button>
+          </Box>
+        )}
+
+        {/* Search Field */}
+        <Box sx={{ 
+          flexGrow: 1, 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center',
+          maxWidth: 400,
+          margin: '0 auto'
+        }}>
+          <TextField
+            variant="outlined"
+            size="small"
+            placeholder="Search..."
+            fullWidth
+            InputProps={{
+              startAdornment: <SearchIcon color="action" />
             }}
-          >
-            Dashboard
-          </Typography>
+            sx={{ 
+              backgroundColor: 'background.paper',
+              borderRadius: 1
+            }}
+          />
+        </Box>
 
-          {/* Navigation Links */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <Button 
-              component={Link} 
-              to="/projects" 
-              sx={{ my: 2, color: 'inherit', display: 'block' }}
-            >
-              Projects
-            </Button>
-            <Button 
-              component={Link} 
-              to="/analytics" 
-              sx={{ my: 2, color: 'inherit', display: 'block' }}
-            >
-              Analytics
-            </Button>
-          </Box>
-
-          {/* Search Field */}
-          <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
-            <TextField
-              variant="outlined"
-              size="small"
-              placeholder="Search..."
-              InputProps={{
-                startAdornment: <SearchIcon />,
-                sx: { 
-                  borderRadius: 2, 
-                  backgroundColor: 'background.paper',
-                  width: { xs: '100%', md: 300 }
-                }
-              }}
-            />
-          </Box>
-
+        {/* Action Buttons */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           {/* New Project Button */}
           <Button 
             variant="contained" 
             color="primary" 
             startIcon={<AddIcon />}
-            sx={{ mx: 2 }}
+            sx={{ display: { xs: 'none', md: 'flex' } }}
           >
             New Project
           </Button>
 
+          {/* Mobile Menu Toggle */}
+          {isMobile && (
+            <IconButton color="inherit">
+              <MenuIcon />
+            </IconButton>
+          )}
+
           {/* Avatar Dropdown */}
-          <IconButton onClick={handleMenuOpen} color="inherit">
-            <Avatar sx={{ width: 32, height: 32 }}>
-              <AccountCircleIcon />
-            </Avatar>
+          <IconButton onClick={handleAvatarClick}>
+            <Avatar 
+              alt="User Avatar" 
+              src="/path/to/avatar.jpg" 
+              sx={{ width: 32, height: 32 }}
+            />
           </IconButton>
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
+            onClose={handleAvatarClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
           >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+            <MenuItem onClick={handleAvatarClose}>Profile</MenuItem>
+            <MenuItem onClick={handleAvatarClose}>Settings</MenuItem>
+            <MenuItem onClick={handleAvatarClose}>Logout</MenuItem>
           </Menu>
-        </Toolbar>
-      </Container>
+        </Box>
+      </Toolbar>
     </AppBar>
   );
 };
