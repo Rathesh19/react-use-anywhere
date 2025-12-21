@@ -21,6 +21,7 @@ const App: React.FC = () => {
       <CssBaseline />
       <TopNavBar />
       <HeroPanel />
+      {/* Additional components can be added here */}
     </ThemeProvider>
   );
 };

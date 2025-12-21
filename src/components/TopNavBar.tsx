@@ -12,7 +12,7 @@ import {
   Box 
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AddIcon from '@mui/icons-material/Add';
 
 const TopNavBar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -55,6 +55,7 @@ const TopNavBar: React.FC = () => {
         <Button 
           variant="contained" 
           color="secondary" 
+          startIcon={<AddIcon />}
           sx={{ mr: 2 }}
         >
           New Project
@@ -62,9 +63,7 @@ const TopNavBar: React.FC = () => {
 
         {/* Avatar Dropdown */}
         <IconButton onClick={handleAvatarClick}>
-          <Avatar>
-            <AccountCircleIcon />
-          </Avatar>
+          <Avatar alt="User Avatar" src="/path/to/avatar.jpg" />
         </IconButton>
         <Menu
           anchorEl={anchorEl}
