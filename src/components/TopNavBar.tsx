@@ -17,16 +17,16 @@ import {
   Add as AddIcon, 
   AccountCircle as AccountCircleIcon 
 } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
 
 const TopNavBar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
   const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleAvatarClose = () => {
+  const handleClose = () => {
     setAnchorEl(null);
   };
 
@@ -38,36 +38,36 @@ const TopNavBar: React.FC = () => {
           <Typography 
             variant="h6" 
             noWrap 
-            component={Link} 
-            to="/" 
-            sx={{ 
-              mr: 2, 
-              display: 'flex', 
-              fontWeight: 700, 
-              color: 'inherit', 
-              textDecoration: 'none' 
-            }}
+            component="div" 
+            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
             Dashboard
           </Typography>
 
           {/* Navigation Links */}
-          <Box sx={{ flexGrow: 1, display: 'flex', gap: 2 }}>
-            <Button color="inherit" component={Link} to="/projects">Projects</Button>
-            <Button color="inherit" component={Link} to="/analytics">Analytics</Button>
-            <Button color="inherit" component={Link} to="/reports">Reports</Button>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            <Button color="inherit" sx={{ mx: 1 }}>Home</Button>
+            <Button color="inherit" sx={{ mx: 1 }}>Projects</Button>
+            <Button color="inherit" sx={{ mx: 1 }}>Analytics</Button>
           </Box>
 
           {/* Search Field */}
-          <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center', mr: 2 }}>
+          <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
             <TextField
               variant="outlined"
               size="small"
               placeholder="Search..."
-              InputProps={{
-                startAdornment: <SearchIcon fontSize="small" sx={{ mr: 1 }} />,
+              sx={{ 
+                flexGrow: 1, 
+                maxWidth: 300, 
+                mr: 2,
+                '& .MuiOutlinedInput-root': { 
+                  borderRadius: 4 
+                }
               }}
-              sx={{ minWidth: 200 }}
+              InputProps={{
+                startAdornment: <SearchIcon color="action" sx={{ mr: 1 }} />
+              }}
             />
           </Box>
 
@@ -75,29 +75,35 @@ const TopNavBar: React.FC = () => {
           <Button 
             variant="contained" 
             color="primary" 
-            startIcon={<AddIcon />} 
+            startIcon={<AddIcon />}
             sx={{ mr: 2 }}
           >
             New Project
           </Button>
 
           {/* Avatar Dropdown */}
-          <Box>
-            <IconButton onClick={handleAvatarClick}>
-              <Avatar>
-                <AccountCircleIcon />
-              </Avatar>
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleAvatarClose}
-            >
-              <MenuItem onClick={handleAvatarClose}>Profile</MenuItem>
-              <MenuItem onClick={handleAvatarClose}>Settings</MenuItem>
-              <MenuItem onClick={handleAvatarClose}>Logout</MenuItem>
-            </Menu>
-          </Box>
+          <IconButton onClick={handleAvatarClick}>
+            <Avatar>
+              <AccountCircleIcon />
+            </Avatar>
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+          >
+            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem onClick={handleClose}>Settings</MenuItem>
+            <MenuItem onClick={handleClose}>Logout</MenuItem>
+          </Menu>
         </Toolbar>
       </Container>
     </AppBar>
